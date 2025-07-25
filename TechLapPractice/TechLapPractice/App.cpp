@@ -8,8 +8,33 @@ bool UApp::Init()
 	Ins = this;
 	return Renderer.Init();
 }
+void UApp::Start() 
+{
+	MakeGameObject("TestObject", &QuadMesh);
+}
+void UApp::Cycle()
+{
+	Renderer.Render(SceneGameObjects);
+}
+
+void UApp::MakeGameObject(const string& name, FMesh* pMesh)
+{
+	SceneGameObjects.emplace_back(make_unique<UGameObject>(name, pMesh));
+}
+
+const ID3D11Device* UApp::GetDevice() const
+{
+	return Renderer.GetDevice();
+}
+const ID3D11DeviceContext* UApp::GetContext() const
+{
+	return Renderer.GetContext();
+}
+
+
 int UApp::Run()
 {
+	Start();
 	bool IsExit = false;
 	while (IsExit == false)
 	{
@@ -27,16 +52,4 @@ int UApp::Run()
 		Cycle();
 	}
 	return 0;
-}
-const ID3D11Device* UApp::GetDevice() const
-{
-	return Renderer.GetDevice();
-}
-const ID3D11DeviceContext* UApp::GetContext() const
-{
-	return Renderer.GetContext();
-}
-void UApp::Cycle()
-{
-	Renderer.Render();
 }

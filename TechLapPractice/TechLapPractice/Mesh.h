@@ -38,7 +38,7 @@ struct FMesh
 		VertexStirde = meshData.GetVertexByteWidth();
 	}
 
-	void Draw(ID3D11DeviceContext* context)
+	void Draw(ID3D11DeviceContext* context) const
 	{
 		context->IASetVertexBuffers(0, 1, &VertexBuffer, &VertexStirde, &Offset);
 		context->IASetIndexBuffer(IndexBuffer, DXGI_FORMAT_R32_UINT, 0);

@@ -22,13 +22,19 @@ bool URenderer::Init()
 	return true;
 }
 
-void URenderer::Render()
+void URenderer::Render(const vector<unique_ptr<UGameObject>>& sceneGameObjects)
 {
 	Context->ClearRenderTargetView(FrameBufferRTV, ClearColor);
 	Context->OMSetRenderTargets(1, &FrameBufferRTV, nullptr);
 	Context->RSSetViewports(1, &ViewportInfo);
 	Context->OMSetBlendState(nullptr, nullptr, 0xffffffff);
 	D3DUtil::UpdateConstantBuffer(Context, TestCBuffer, ConstantBuffer);
+
+	int sceneGameObjectCount = sceneGameObjects.size();
+	for (int i = 0; i < sceneGameObjectCount; i++)
+	{
+		sceneGameObjects[i].get()->GetMesh()->Draw(Context);
+	}
 	Context->PSSetConstantBuffers(0, 1, &ConstantBuffer);
 	BasicPSO.RenderSetting(Context);
 	QuadMesh.Draw(Context);

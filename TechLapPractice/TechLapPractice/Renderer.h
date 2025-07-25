@@ -40,7 +40,7 @@ private:
 
 public:
 	bool Init();
-	void Render();
+	void Render(const vector<unique_ptr<UGameObject>>& sceneGameObjects);
 	void RenderGUI();
 	const ID3D11Device* GetDevice() const;
 	const ID3D11DeviceContext* GetContext() const;
