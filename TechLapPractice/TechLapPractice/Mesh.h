@@ -21,6 +21,23 @@ struct FMesh
 		VertexStirde = meshData.GetVertexByteWidth();
 	}
 
+	void SetMeshData(ID3D11Device* device, const FMeshData& meshData)
+	{
+		if (VertexBuffer != nullptr)
+		{
+			VertexBuffer->Release();
+		}
+		if (IndexBuffer != nullptr)
+		{
+			IndexBuffer->Release();
+		}
+		D3DUtil::CreateVertexBuffer(device, meshData.GetVertexValues(), meshData.GetVertexByteWidth(), &VertexBuffer);
+		D3DUtil::CreateIndexBuffer(device, meshData.GetIndices(), &IndexBuffer);
+		VertexCount = meshData.GetVertexCount();
+		IndexCount = meshData.GetIndexCount();
+		VertexStirde = meshData.GetVertexByteWidth();
+	}
+
 	void Draw(ID3D11DeviceContext* context)
 	{
 		context->IASetVertexBuffers(0, 1, &VertexBuffer, &VertexStirde, &Offset);

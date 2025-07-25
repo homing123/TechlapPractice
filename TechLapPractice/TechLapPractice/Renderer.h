@@ -8,6 +8,8 @@
 #include "GraphicsPSO.h"
 #include "GraphicsCommon.h"
 #include "Mesh.h"
+#include "UGameObject.h"
+#include "UTransform.h"
 
 using namespace HMGraphics;
 
@@ -40,6 +42,8 @@ public:
 	bool Init();
 	void Render();
 	void RenderGUI();
+	const ID3D11Device* GetDevice() const;
+	const ID3D11DeviceContext* GetContext() const;
 private:
 	static LRESULT CALLBACK MsgProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam);
 

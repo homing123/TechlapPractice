@@ -145,7 +145,9 @@
     <ClInclude Include="GraphicsPSO.h" />
     <ClInclude Include="MeshData.h" />
     <ClInclude Include="Renderer.h" />
+    <ClInclude Include="UComponent.h" />
     <ClInclude Include="UGameObject.h" />
+    <ClInclude Include="UTransform.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="BasicShader.hlsl">

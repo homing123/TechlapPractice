@@ -52,6 +52,16 @@ void URenderer::RenderGUI()
 	ImGui::Render();
 	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 }
+
+const ID3D11Device* URenderer::GetDevice() const
+{
+	return Device;
+}
+
+const ID3D11DeviceContext* URenderer::GetContext() const
+{
+	return Context;
+}
 LRESULT CALLBACK URenderer::MsgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	if (ImGui_ImplWin32_WndProcHandler(hWnd, msg, wParam, lParam))

@@ -1,8 +1,11 @@
 
 #include "App.h"
 
+UApp* UApp::Ins = nullptr;
+
 bool UApp::Init()
 {
+	Ins = this;
 	return Renderer.Init();
 }
 int UApp::Run()
@@ -25,7 +28,14 @@ int UApp::Run()
 	}
 	return 0;
 }
-
+const ID3D11Device* UApp::GetDevice() const
+{
+	return Renderer.GetDevice();
+}
+const ID3D11DeviceContext* UApp::GetContext() const
+{
+	return Renderer.GetContext();
+}
 void UApp::Cycle()
 {
 	Renderer.Render();
