@@ -45,10 +45,10 @@ public:
 		context->Unmap(cBuffer, 0);
 	}
 
-	static void SetViewport(ID3D11DeviceContext* context, D3D11_VIEWPORT& viewportInfo, const UINT width, const UINT height);
-	static void CreateVSAndInputLayout(ID3D11Device* device, const LPCWSTR& fileName, const D3D11_INPUT_ELEMENT_DESC* inputElements, const UINT elementsCount, ID3D11VertexShader** outVS, ID3D11InputLayout** outInputLayout);
-	static void CreatePS(ID3D11Device* device, const LPCWSTR& fileName, ID3D11PixelShader** outPS);
-	static void CreateRasterizerState(ID3D11Device* device, D3D11_RASTERIZER_DESC& desc, ID3D11RasterizerState** outRSS);
-	static void CreateVertexBuffer(ID3D11Device* device, const vector<float>& vertexValues, const UINT vertexByteWidth, ID3D11Buffer** outVertexBuffer);
-	static void CreateIndexBuffer(ID3D11Device* device, const vector<int>& indices, ID3D11Buffer** outIndexBuffer);
+	static void SetViewport(D3D11_VIEWPORT& viewportInfo, const UINT width, const UINT height);
+	static void CreateVSAndInputLayout(const LPCWSTR& fileName, const D3D11_INPUT_ELEMENT_DESC* inputElements, const UINT elementsCount, ID3D11VertexShader** outVS, ID3D11InputLayout** outInputLayout);
+	static void CreatePS(const LPCWSTR& fileName, ID3D11PixelShader** outPS);
+	static void CreateRasterizerState(D3D11_RASTERIZER_DESC& desc, ID3D11RasterizerState** outRSS);
+	static void CreateVertexBuffer(const vector<float>& vertexValues, const UINT vertexByteWidth, ID3D11Buffer** outVertexBuffer);
+	static void CreateIndexBuffer(const vector<int>& indices, ID3D11Buffer** outIndexBuffer);
 };

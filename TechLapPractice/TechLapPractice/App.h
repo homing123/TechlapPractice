@@ -11,13 +11,31 @@ public:
 private:
 	URenderer Renderer;
 	vector<unique_ptr<UGameObject>>SceneGameObjects;
+
+public:
+	ID3D11Device* GetDevice() const
+	{
+		return Renderer.GetDevice();
+	}
+	ID3D11DeviceContext* GetContext() const
+	{
+		return Renderer.GetContext();
+	}
+	const UINT GetScreenWidth() const
+	{
+		return Renderer.GetScreenWidth();
+	}
+	const UINT GetScreenHeight() const
+	{
+		return Renderer.GetScreenHeight();
+	}
 public:
 	bool Init();
 	int Run();
 
+
 	void MakeGameObject(const string& name, FMesh* pMesh);
-	const ID3D11Device* GetDevice() const;
-	const ID3D11DeviceContext* GetContext() const;
+	
 private:
 	void Start();
 	void Cycle();

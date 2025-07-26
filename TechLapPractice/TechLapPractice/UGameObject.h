@@ -13,11 +13,16 @@ private:
 	UTransform Transform;
 	FMesh* Mesh;
 public:
+	UGameObject()
+	{
+		cout << "gameobject 持失" << endl;
+	}
 	UGameObject(const string& name, FMesh* pMesh)
 	{
 		Name = name;
 		NameKey = std::hash<string>()(Name);
 		Mesh = pMesh;
+		cout << "gameobject 持失2" << endl;
 	}
 	void ChangeName(const string& name)
 	{

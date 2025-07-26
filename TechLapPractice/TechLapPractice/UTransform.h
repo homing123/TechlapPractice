@@ -20,7 +20,12 @@ private:
 	Vector3 Forward = Vector3::UnitZ;
 
 	Matrix WorldMat = Matrix::Identity;
+	
 public:
+	UTransform()
+	{
+		cout << "transform »ý¼º" << endl;
+	}
 	Vector3 GetPosition() const
 	{
 		return Position;
@@ -82,18 +87,20 @@ public:
 		Rotation *= Quaternion::CreateFromAxisAngle(axis, degree);
 		Update();
 	}
-	//void Look(const Vector3& lookPos)
-	//{
-	//	if (Position == lookPos)
-	//	{
-	//		return;
-	//	}
-	//	else
-	//	{
-	//		Vector3 lookDir = lookPos - Position;
-	//		Quaternion::LookRotation(lookDir, Up);
-	//	}
-	//}
+	void Look(const Vector3& lookPos, const Vector3& up = Vector3::UnitY)
+	{
+		if (Position == lookPos)
+		{
+			return;
+		}
+		else
+		{
+			Vector3 lookDir = lookPos - Position;
+			lookDir.Normalize();
+			Rotation = Quaternion::LookRotation(lookDir, Up);
+			Update();
+		}
+	}
 private:
 	void Update() 
 	{

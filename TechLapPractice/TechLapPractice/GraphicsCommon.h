@@ -15,13 +15,13 @@ namespace HMGraphics
 	extern UGraphicsPSO BasicPSO;
 	extern FMesh QuadMesh;
 
-	void InitGraphics(ID3D11Device* device);
-	void InitRasterizerState(ID3D11Device* device);
-	void InitBlendState(ID3D11Device* device);
-	void InitDepthStencilState(ID3D11Device* device);
-	void InitShaderAndInputLayout(ID3D11Device* device);
-	void InitPSO(ID3D11Device* device);
-	void InitMesh(ID3D11Device* device);
+	void InitGraphics();
+	void InitRasterizerState();
+	void InitBlendState();
+	void InitDepthStencilState();
+	void InitShaderAndInputLayout();
+	void InitPSO();
+	void InitMesh();
 
 
 }

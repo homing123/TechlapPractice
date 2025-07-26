@@ -12,16 +12,16 @@ struct FMesh
 	UINT VertexStirde = 0;
 	UINT Offset = 0;
 	FMesh() = default;
-	FMesh(ID3D11Device* device, const FMeshData& meshData)
+	FMesh(const FMeshData& meshData)
 	{
-		D3DUtil::CreateVertexBuffer(device, meshData.GetVertexValues(), meshData.GetVertexByteWidth(), &VertexBuffer);
-		D3DUtil::CreateIndexBuffer(device, meshData.GetIndices(), &IndexBuffer);
+		D3DUtil::CreateVertexBuffer(meshData.GetVertexValues(), meshData.GetVertexByteWidth(), &VertexBuffer);
+		D3DUtil::CreateIndexBuffer(meshData.GetIndices(), &IndexBuffer);
 		VertexCount = meshData.GetVertexCount();
 		IndexCount = meshData.GetIndexCount();
 		VertexStirde = meshData.GetVertexByteWidth();
 	}
 
-	void SetMeshData(ID3D11Device* device, const FMeshData& meshData)
+	void SetMeshData(const FMeshData& meshData)
 	{
 		if (VertexBuffer != nullptr)
 		{
@@ -31,8 +31,8 @@ struct FMesh
 		{
 			IndexBuffer->Release();
 		}
-		D3DUtil::CreateVertexBuffer(device, meshData.GetVertexValues(), meshData.GetVertexByteWidth(), &VertexBuffer);
-		D3DUtil::CreateIndexBuffer(device, meshData.GetIndices(), &IndexBuffer);
+		D3DUtil::CreateVertexBuffer(meshData.GetVertexValues(), meshData.GetVertexByteWidth(), &VertexBuffer);
+		D3DUtil::CreateIndexBuffer(meshData.GetIndices(), &IndexBuffer);
 		VertexCount = meshData.GetVertexCount();
 		IndexCount = meshData.GetIndexCount();
 		VertexStirde = meshData.GetVertexByteWidth();

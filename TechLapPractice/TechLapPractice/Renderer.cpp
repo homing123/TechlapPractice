@@ -16,8 +16,7 @@ bool URenderer::Init()
 	{
 		return false;
 	}
-	D3DUtil::CreateConstantBuffer(Device, TestCBuffer, &ConstantBuffer);
-	InitGraphics(Device);
+	InitGraphics();
 	
 	return true;
 }
@@ -28,17 +27,13 @@ void URenderer::Render(const vector<unique_ptr<UGameObject>>& sceneGameObjects)
 	Context->OMSetRenderTargets(1, &FrameBufferRTV, nullptr);
 	Context->RSSetViewports(1, &ViewportInfo);
 	Context->OMSetBlendState(nullptr, nullptr, 0xffffffff);
-	D3DUtil::UpdateConstantBuffer(Context, TestCBuffer, ConstantBuffer);
-
+	Context->PSSetConstantBuffers(0, 1, &ConstantBuffer);
+	BasicPSO.RenderSetting(Context);
 	int sceneGameObjectCount = sceneGameObjects.size();
 	for (int i = 0; i < sceneGameObjectCount; i++)
 	{
 		sceneGameObjects[i].get()->GetMesh()->Draw(Context);
 	}
-	Context->PSSetConstantBuffers(0, 1, &ConstantBuffer);
-	BasicPSO.RenderSetting(Context);
-	QuadMesh.Draw(Context);
-
 
 	RenderGUI();
 	SwapChain->Present(1, 0); // 1: VSync È°¼ºÈ­
@@ -51,23 +46,13 @@ void URenderer::RenderGUI()
 	ImGui::NewFrame();
 	ImGui::Begin("GUI Window");
 	ImGui::Text("Test");
-	ImGui::SliderFloat("Red", &TestCBuffer.Color.x, 0, 1);
-	ImGui::SliderFloat("Green", &TestCBuffer.Color.y, 0, 1);
-	ImGui::SliderFloat("Blue", &TestCBuffer.Color.z, 0, 1);
+
 	ImGui::End();
 	ImGui::Render();
 	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 }
 
-const ID3D11Device* URenderer::GetDevice() const
-{
-	return Device;
-}
 
-const ID3D11DeviceContext* URenderer::GetContext() const
-{
-	return Context;
-}
 LRESULT CALLBACK URenderer::MsgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	if (ImGui_ImplWin32_WndProcHandler(hWnd, msg, wParam, lParam))
@@ -210,7 +195,7 @@ bool URenderer::InitDirect3D()
 		cout << "D3D11CreateDeviceAndSwapChain Failed" << endl;
 		return false;
 	}
-	D3DUtil::SetViewport(Context, ViewportInfo, ScreenWidth, ScreenHeight);
+	D3DUtil::SetViewport(ViewportInfo, ScreenWidth, ScreenHeight);
 	
 	HRESULT result = SwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)&FrameBuffer);
 	if (FAILED(result))

@@ -36,14 +36,29 @@ private:
 	ID3D11PixelShader* BasicPS;
 	ID3D11InputLayout* BasicInputLayout;
 
-	FConstantBuffer TestCBuffer;
-
 public:
 	bool Init();
 	void Render(const vector<unique_ptr<UGameObject>>& sceneGameObjects);
 	void RenderGUI();
-	const ID3D11Device* GetDevice() const;
-	const ID3D11DeviceContext* GetContext() const;
+public:
+	ID3D11Device* GetDevice() const
+	{
+		return Device;
+	}
+
+	ID3D11DeviceContext* GetContext() const
+	{
+		return Context;
+	}
+
+	const UINT GetScreenWidth() const
+	{
+		return ScreenWidth;
+	}
+	const UINT GetScreenHeight() const
+	{
+		return ScreenHeight;
+	}
 private:
 	static LRESULT CALLBACK MsgProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam);
 
