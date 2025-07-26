@@ -11,6 +11,7 @@ namespace HMGraphics
 
 	UGraphicsPSO BasicPSO;
 	FMesh QuadMesh;
+	FMesh CubeMesh;
 }
 
 
@@ -44,7 +45,7 @@ void HMGraphics::InitShaderAndInputLayout()
 	D3D11_INPUT_ELEMENT_DESC inputElementDesc[] =
 	{
 		{"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
-		{"COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0}
+		{"TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0}
 	};
 	D3DUtil::CreateVSAndInputLayout(L"BasicShader.hlsl", inputElementDesc, ARRAYSIZE(inputElementDesc), &BasicVS, &BasicInputLayout);
 	D3DUtil::CreatePS(L"BasicShader.hlsl", &BasicPS);
@@ -59,4 +60,5 @@ void HMGraphics::InitPSO()
 void HMGraphics::InitMesh()
 {
 	QuadMesh = FMesh(FMeshData::QuadMeshData);
+	CubeMesh = FMesh(FMeshData::CubeMeshData);
 }

@@ -14,6 +14,7 @@ namespace HMGraphics
 
 	extern UGraphicsPSO BasicPSO;
 	extern FMesh QuadMesh;
+	extern FMesh CubeMesh;
 
 	void InitGraphics();
 	void InitRasterizerState();

@@ -1,30 +1,27 @@
-cbuffer constants : register(b0)
-{
-	float4 Color;
-}
+#include "Common.hlsli"
 
 struct VS_Input
 {
-	float4 ModelPos : POSITION;
-	float4 Color : COLOR;
+	float3 ModelPos : POSITION;
+	float2 uv : TEXCOORD0;
 };
 struct PS_Input
 {
 	float4 ClipPos : SV_POSITION;
-	float4 Color : COLOR;
+    float2 uv : TEXCOORD0;
 };
 
 PS_Input mainVS(VS_Input input)
 {
 	PS_Input output;
-	output.ClipPos = input.ModelPos;
-	output.Color = input.Color;
+    output.ClipPos = mul(MVPMatrix, float4(input.ModelPos, 1));
+	output.uv = input.uv;
 	return output;
 }
 
 float4 mainPS(PS_Input input) : SV_Target
 {
 	float4 col;
-	col = float4(Color.rgb, 1.0f);
+	col = float4(input.uv, 0.0f, 1.0f);
 	return col;
 }

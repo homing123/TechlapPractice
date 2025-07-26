@@ -21,8 +21,10 @@ bool URenderer::Init()
 	return true;
 }
 
-void URenderer::Render(const vector<unique_ptr<UGameObject>>& sceneGameObjects)
+void URenderer::Render(UCamera& camera, const vector<unique_ptr<UGameObject>>& sceneGameObjects)
 {
+	camera.UpdateConstantBuffer();
+	Matrix viewProjectionMat = camera.GetViewProjectionMatix();
 	Context->ClearRenderTargetView(FrameBufferRTV, ClearColor);
 	Context->OMSetRenderTargets(1, &FrameBufferRTV, nullptr);
 	Context->RSSetViewports(1, &ViewportInfo);
@@ -32,9 +34,8 @@ void URenderer::Render(const vector<unique_ptr<UGameObject>>& sceneGameObjects)
 	int sceneGameObjectCount = sceneGameObjects.size();
 	for (int i = 0; i < sceneGameObjectCount; i++)
 	{
-		sceneGameObjects[i].get()->GetMesh()->Draw(Context);
+		sceneGameObjects[i].get()->Draw(viewProjectionMat);
 	}
-
 	RenderGUI();
 	SwapChain->Present(1, 0); // 1: VSync È°¼ºÈ­
 }

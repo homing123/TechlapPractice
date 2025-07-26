@@ -8,8 +8,9 @@
 #include "GraphicsPSO.h"
 #include "GraphicsCommon.h"
 #include "Mesh.h"
-#include "UGameObject.h"
-#include "UTransform.h"
+#include "GameObject.h"
+#include "Transform.h"
+#include "Camera.h"
 
 using namespace HMGraphics;
 
@@ -38,7 +39,7 @@ private:
 
 public:
 	bool Init();
-	void Render(const vector<unique_ptr<UGameObject>>& sceneGameObjects);
+	void Render(UCamera& camera,  const vector<unique_ptr<UGameObject>>& sceneGameObjects);
 	void RenderGUI();
 public:
 	ID3D11Device* GetDevice() const

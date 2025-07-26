@@ -36,8 +36,8 @@ struct FCamConstantBuffer
 struct FTransformConstantBuffer
 {
 	Matrix WorldMatrix;
+	Matrix MVPMatrix;
 	Matrix InvWorldMatrix;
-	Matrix WVPMatrix;
 	Matrix InvMVPMatrix;
 };
 #endif

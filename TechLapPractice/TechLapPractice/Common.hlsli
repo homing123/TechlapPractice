@@ -10,8 +10,10 @@ cbuffer FAppConstantBuffer : register(APP_CONSTANT_BUFFER_SLOT)
 cbuffer FCamConstantBuffer : register(CAM_CONSTANT_BUFFER_SLOT)
 {
     Matrix ViewMatrix;
+    Matrix ProjectionMatrix;
     Matrix ViewProjectionMatrix;
     Matrix InvViewMatrix;
+    Matrix InvProjectionMatrix;
     Matrix InvViewProjectionMatrix;
     float CamNear;
     float CamFar;
@@ -21,7 +23,7 @@ cbuffer FCamConstantBuffer : register(CAM_CONSTANT_BUFFER_SLOT)
 cbuffer FTransformConstantBuffer : register(TRANSFORM_CONSTANT_BUFFER_SLOT)
 {
     Matrix WorldMatrix;
+    Matrix MVPMatrix;
     Matrix InvWorldMatrix;
-    Matrix WVPMatrix;
     Matrix InvMVPMatrix;
 };

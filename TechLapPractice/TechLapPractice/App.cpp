@@ -6,15 +6,18 @@ UApp* UApp::Ins = nullptr;
 bool UApp::Init()
 {
 	Ins = this;
-	return Renderer.Init();
+	bool rendererInitialized = Renderer.Init();
+	Camera.Init();
+	return rendererInitialized;
 }
 void UApp::Start() 
 {
-	MakeGameObject("TestObject", &QuadMesh);
+	MakeGameObject("TestObject", &CubeMesh);
+	Camera.GetTransform().SetPosition(Vector3(0, 0, -5.0f));
 }
 void UApp::Cycle()
 {
-	Renderer.Render(SceneGameObjects);
+	Renderer.Render(Camera, SceneGameObjects);
 }
 
 void UApp::MakeGameObject(const string& name, FMesh* pMesh)

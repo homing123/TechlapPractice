@@ -11,37 +11,8 @@ struct FMesh
 	UINT IndexCount = 0;
 	UINT VertexStirde = 0;
 	UINT Offset = 0;
+
 	FMesh() = default;
-	FMesh(const FMeshData& meshData)
-	{
-		D3DUtil::CreateVertexBuffer(meshData.GetVertexValues(), meshData.GetVertexByteWidth(), &VertexBuffer);
-		D3DUtil::CreateIndexBuffer(meshData.GetIndices(), &IndexBuffer);
-		VertexCount = meshData.GetVertexCount();
-		IndexCount = meshData.GetIndexCount();
-		VertexStirde = meshData.GetVertexByteWidth();
-	}
-
-	void SetMeshData(const FMeshData& meshData)
-	{
-		if (VertexBuffer != nullptr)
-		{
-			VertexBuffer->Release();
-		}
-		if (IndexBuffer != nullptr)
-		{
-			IndexBuffer->Release();
-		}
-		D3DUtil::CreateVertexBuffer(meshData.GetVertexValues(), meshData.GetVertexByteWidth(), &VertexBuffer);
-		D3DUtil::CreateIndexBuffer(meshData.GetIndices(), &IndexBuffer);
-		VertexCount = meshData.GetVertexCount();
-		IndexCount = meshData.GetIndexCount();
-		VertexStirde = meshData.GetVertexByteWidth();
-	}
-
-	void Draw(ID3D11DeviceContext* context) const
-	{
-		context->IASetVertexBuffers(0, 1, &VertexBuffer, &VertexStirde, &Offset);
-		context->IASetIndexBuffer(IndexBuffer, DXGI_FORMAT_R32_UINT, 0);
-		context->DrawIndexed(IndexCount, 0, 0);
-	}
+	FMesh(const FMeshData& meshData);
+	void SetMeshData(const FMeshData& meshData);
 };

@@ -10,8 +10,8 @@ public:
 	static UApp* Ins;
 private:
 	URenderer Renderer;
-	vector<unique_ptr<UGameObject>>SceneGameObjects;
-
+	vector<unique_ptr<UGameObject>> SceneGameObjects;
+	UCamera Camera;
 public:
 	ID3D11Device* GetDevice() const
 	{
@@ -35,7 +35,6 @@ public:
 
 
 	void MakeGameObject(const string& name, FMesh* pMesh);
-	
 private:
 	void Start();
 	void Cycle();

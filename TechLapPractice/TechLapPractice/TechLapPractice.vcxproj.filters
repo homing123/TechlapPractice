@@ -45,7 +45,10 @@
     <ClCompile Include="SimpleMath.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="UCamera.cpp">
+    <ClCompile Include="Camera.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -68,7 +71,7 @@
     <ClInclude Include="GraphicsCommon.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="UGameObject.h">
+    <ClInclude Include="GameObject.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="MeshData.h">
@@ -77,13 +80,13 @@
     <ClInclude Include="Mesh.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="UTransform.h">
+    <ClInclude Include="Transform.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="UComponent.h">
+    <ClInclude Include="Camera.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="UCamera.h">
+    <ClInclude Include="LogUtil.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
