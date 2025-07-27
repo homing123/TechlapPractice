@@ -63,10 +63,6 @@ void D3DUtil::CreatePS(const LPCWSTR& fileName, ID3D11PixelShader** outPS)
 	}
 }
 
-void D3DUtil::CreateRasterizerState(D3D11_RASTERIZER_DESC& desc, ID3D11RasterizerState** outRSS)
-{
-	UApp::Ins->GetDevice()->CreateRasterizerState(&desc, outRSS);
-}
 
 void D3DUtil::CreateVertexBuffer(const vector<float>& vertexValues, const UINT vertexByteWidth, ID3D11Buffer** outVertexBuffer)
 {

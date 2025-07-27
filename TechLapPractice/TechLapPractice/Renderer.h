@@ -39,7 +39,6 @@ private:
 
 	ID3D11Texture2D* DepthBuffer = nullptr;
 	ID3D11DepthStencilView* DepthStencilView = nullptr;
-	ID3D11DepthStencilState* DepthStencilState = nullptr;
 
 public:
 	bool Init();

@@ -48,7 +48,6 @@ public:
 	static void SetViewport(D3D11_VIEWPORT& viewportInfo, const UINT width, const UINT height);
 	static void CreateVSAndInputLayout(const LPCWSTR& fileName, const D3D11_INPUT_ELEMENT_DESC* inputElements, const UINT elementsCount, ID3D11VertexShader** outVS, ID3D11InputLayout** outInputLayout);
 	static void CreatePS(const LPCWSTR& fileName, ID3D11PixelShader** outPS);
-	static void CreateRasterizerState(D3D11_RASTERIZER_DESC& desc, ID3D11RasterizerState** outRSS);
 	static void CreateVertexBuffer(const vector<float>& vertexValues, const UINT vertexByteWidth, ID3D11Buffer** outVertexBuffer);
 	static void CreateIndexBuffer(const vector<int>& indices, ID3D11Buffer** outIndexBuffer);
 };

@@ -10,6 +10,7 @@ void UGraphicsPSO::RenderSetting(ID3D11DeviceContext* context)
 		context->PSSetShader(PS, nullptr, 0);
 		context->RSSetState(RasterizerState);
 		context->IASetPrimitiveTopology(PrimitiveTopology);
+		context->OMSetDepthStencilState(DepthStencilState, 0);
 	}
 	else
 	{
@@ -32,6 +33,10 @@ void UGraphicsPSO::RenderSetting(ID3D11DeviceContext* context)
 		if (LastPSO->PrimitiveTopology != PrimitiveTopology)
 		{
 			context->IASetPrimitiveTopology(PrimitiveTopology);
+		}
+		if (LastPSO->DepthStencilState != DepthStencilState)
+		{
+			context->OMSetDepthStencilState(DepthStencilState, 0);
 		}
 	}
 	LastPSO = this;

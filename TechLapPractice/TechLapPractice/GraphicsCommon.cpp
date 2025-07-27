@@ -1,4 +1,5 @@
 #include "GraphicsCommon.h"
+#include "App.h"
 
 namespace HMGraphics
 {
@@ -30,7 +31,7 @@ void HMGraphics::InitRasterizerState()
 	rssDesc.CullMode = D3D11_CULL_BACK;
 	rssDesc.FillMode = D3D11_FILL_SOLID;
 	rssDesc.FrontCounterClockwise = false;
-	D3DUtil::CreateRasterizerState(rssDesc, &BasicRasterizerState);
+	UApp::Ins->GetDevice()->CreateRasterizerState(&rssDesc, &BasicRasterizerState);
 }
 void HMGraphics::InitBlendState()
 {
@@ -38,7 +39,12 @@ void HMGraphics::InitBlendState()
 }
 void HMGraphics::InitDepthStencilState()
 {
-
+	D3D11_DEPTH_STENCIL_DESC depthStencilStateDesc = {};
+	depthStencilStateDesc.DepthEnable = true;
+	depthStencilStateDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
+	depthStencilStateDesc.DepthFunc = D3D11_COMPARISON_LESS;
+	depthStencilStateDesc.StencilEnable = false;
+	UApp::Ins->GetDevice()->CreateDepthStencilState(&depthStencilStateDesc, &BasicDepthStencilState);
 }
 void HMGraphics::InitShaderAndInputLayout()
 {
@@ -56,6 +62,7 @@ void HMGraphics::InitPSO()
 	BasicPSO.VS = BasicVS;
 	BasicPSO.PS = BasicPS;
 	BasicPSO.RasterizerState = BasicRasterizerState;
+	BasicPSO.DepthStencilState = BasicDepthStencilState;
 }
 void HMGraphics::InitMesh()
 {
