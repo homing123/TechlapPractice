@@ -18,6 +18,51 @@ bool URenderer::Init()
 	}
 	InitGraphics();
 	
+
+	D3D11_TEXTURE2D_DESC depthTextureDesc = {};
+	depthTextureDesc.Width = ScreenWidth;
+	depthTextureDesc.Height = ScreenHeight;
+	depthTextureDesc.ArraySize = 1;
+	depthTextureDesc.MipLevels = 1;
+	depthTextureDesc.SampleDesc.Count = 1;
+	depthTextureDesc.SampleDesc.Quality = 0;
+	depthTextureDesc.Usage = D3D11_USAGE_DEFAULT;
+	depthTextureDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+	depthTextureDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+	depthTextureDesc.CPUAccessFlags = 0;
+	depthTextureDesc.MiscFlags = 0;
+	HRESULT hr = Device->CreateTexture2D(&depthTextureDesc, nullptr, &DepthBuffer);
+	if (FAILED(hr))
+	{
+		cout << "CreateDepthTexture Faield" << endl;
+		return false;
+	}
+
+	D3D11_DEPTH_STENCIL_VIEW_DESC depthStencilViewDesc = {};
+	depthStencilViewDesc.Texture2D.MipSlice = 0;
+	depthStencilViewDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+	depthStencilViewDesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
+
+	hr = Device->CreateDepthStencilView(DepthBuffer, &depthStencilViewDesc, &DepthStencilView);
+	if (FAILED(hr))
+	{
+		cout << "CreateDepthStencilView Failed" << endl;
+		return false;
+	}
+
+	D3D11_DEPTH_STENCIL_DESC depthStencilStateDesc = {};
+	depthStencilStateDesc.DepthEnable = true;
+	depthStencilStateDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
+	depthStencilStateDesc.DepthFunc = D3D11_COMPARISON_LESS;
+	depthStencilStateDesc.StencilEnable = false;
+	hr = Device->CreateDepthStencilState(&depthStencilStateDesc, &DepthStencilState);
+	if (FAILED(hr))
+	{
+		cout << "CreateDepthStencilState Failed" << endl;
+		return false;
+	}
+
+
 	return true;
 }
 
@@ -25,8 +70,17 @@ void URenderer::Render(UCamera& camera, const vector<unique_ptr<UGameObject>>& s
 {
 	camera.UpdateConstantBuffer();
 	Matrix viewProjectionMat = camera.GetViewProjectionMatix();
+	Context->OMSetDepthStencilState(DepthStencilState, 0);
+
 	Context->ClearRenderTargetView(FrameBufferRTV, ClearColor);
-	Context->OMSetRenderTargets(1, &FrameBufferRTV, nullptr);
+
+	//depth 있는버전
+	Context->ClearDepthStencilView(DepthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
+	Context->OMSetRenderTargets(1, &FrameBufferRTV, DepthStencilView);
+
+	//depth 없는버전
+	//Context->OMSetRenderTargets(1, &FrameBufferRTV, nullptr);
+
 	Context->RSSetViewports(1, &ViewportInfo);
 	Context->OMSetBlendState(nullptr, nullptr, 0xffffffff);
 	Context->PSSetConstantBuffers(0, 1, &ConstantBuffer);

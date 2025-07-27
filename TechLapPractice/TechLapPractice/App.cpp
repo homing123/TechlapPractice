@@ -13,10 +13,24 @@ bool UApp::Init()
 void UApp::Start() 
 {
 	MakeGameObject("TestObject", &CubeMesh);
+	MakeGameObject("Test2", &CubeMesh);
+	SceneGameObjects[0].get()->GetTransform().SetPosition(Vector3(2.0f, 0.0f, 1.01f));
 	Camera.GetTransform().SetPosition(Vector3(0, 0, -5.0f));
+}
+
+
+
+void UApp::Update()
+{
+	static Vector3 curPos = Vector3(0.0f, 0.0f, 6.0f);
+	curPos.x += 0.02f;
+
+	
+
 }
 void UApp::Cycle()
 {
+	Update();
 	Renderer.Render(Camera, SceneGameObjects);
 }
 

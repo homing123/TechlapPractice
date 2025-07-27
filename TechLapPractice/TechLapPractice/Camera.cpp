@@ -4,7 +4,7 @@
 void UCamera::Init()
 {
 	FovDegree = 90.0f;
-	Near = 0.1f;
+	Near = 0.01f;
 	Far = 100.0f;
 	D3DUtil::CreateConstantBuffer(UApp::Ins->GetDevice(), CamConstantBufferData, &CamConstantBuffer);
 	UApp::Ins->GetContext()->VSSetConstantBuffers(CAM_CONSTANT_BUFFER_SLOT, 1, &CamConstantBuffer);
@@ -89,12 +89,12 @@ void UCamera::UpdateConstantBuffer()
 	const Matrix invProjectionMat = projectionMat.Invert();
 	const Matrix viewProjectionMat = GetViewProjectionMatix();
 	const Matrix invViewProjectionMat = viewProjectionMat.Invert();
-	CamConstantBufferData.ViewMatrix = GetViewMatix().Transpose();
-	CamConstantBufferData.ProjectionMatrix = projectionMat.Transpose();
-	CamConstantBufferData.ViewProjectionMatrix = viewProjectionMat.Transpose();
-	CamConstantBufferData.InvViewMatrix = invViewMat.Transpose();
-	CamConstantBufferData.InvProjectionMatrix = invProjectionMat.Transpose();
-	CamConstantBufferData.InvViewProjectionMatrix = invViewProjectionMat.Transpose();
+	CamConstantBufferData.ViewMatrix = viewMat;
+	CamConstantBufferData.ProjectionMatrix = projectionMat;
+	CamConstantBufferData.ViewProjectionMatrix = viewProjectionMat;
+	CamConstantBufferData.InvViewMatrix = invViewMat;
+	CamConstantBufferData.InvProjectionMatrix = invProjectionMat;
+	CamConstantBufferData.InvViewProjectionMatrix = invViewProjectionMat;
 
 	CamConstantBufferData.CamFar = Far;
 	CamConstantBufferData.CamNear = Near;

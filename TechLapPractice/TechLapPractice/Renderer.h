@@ -37,6 +37,10 @@ private:
 	ID3D11PixelShader* BasicPS;
 	ID3D11InputLayout* BasicInputLayout;
 
+	ID3D11Texture2D* DepthBuffer = nullptr;
+	ID3D11DepthStencilView* DepthStencilView = nullptr;
+	ID3D11DepthStencilState* DepthStencilState = nullptr;
+
 public:
 	bool Init();
 	void Render(UCamera& camera,  const vector<unique_ptr<UGameObject>>& sceneGameObjects);

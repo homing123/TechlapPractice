@@ -37,6 +37,7 @@ public:
 	void MakeGameObject(const string& name, FMesh* pMesh);
 private:
 	void Start();
+	void Update();
 	void Cycle();
 	
 };
