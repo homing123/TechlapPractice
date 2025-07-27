@@ -1,79 +1,4 @@
-﻿  App.cpp
-C:\Users\k9996\OneDrive\Desktop\Git\TechlapPractice\TechLapPractice\TechLapPractice\MeshData.h(55,20): warning C4267: '초기화 중': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  (소스 파일 'App.cpp'을(를) 컴파일하는 중)
-  
-C:\Users\k9996\OneDrive\Desktop\Git\TechlapPractice\TechLapPractice\TechLapPractice\MeshData.h(65,44): warning C4267: '=': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  (소스 파일 'App.cpp'을(를) 컴파일하는 중)
-  
-C:\Users\k9996\OneDrive\Desktop\Git\TechlapPractice\TechLapPractice\TechLapPractice\MeshData.h(78,22): warning C4267: 'return': 'size_t'에서 'const UINT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  (소스 파일 'App.cpp'을(를) 컴파일하는 중)
-  
-  Camera.cpp
-C:\Users\k9996\OneDrive\Desktop\Git\TechlapPractice\TechLapPractice\TechLapPractice\MeshData.h(55,20): warning C4267: '초기화 중': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  (소스 파일 'Camera.cpp'을(를) 컴파일하는 중)
-  
-C:\Users\k9996\OneDrive\Desktop\Git\TechlapPractice\TechLapPractice\TechLapPractice\MeshData.h(65,44): warning C4267: '=': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  (소스 파일 'Camera.cpp'을(를) 컴파일하는 중)
-  
-C:\Users\k9996\OneDrive\Desktop\Git\TechlapPractice\TechLapPractice\TechLapPractice\MeshData.h(78,22): warning C4267: 'return': 'size_t'에서 'const UINT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  (소스 파일 'Camera.cpp'을(를) 컴파일하는 중)
-  
-  D3DUtil.cpp
-C:\Users\k9996\OneDrive\Desktop\Git\TechlapPractice\TechLapPractice\TechLapPractice\MeshData.h(55,20): warning C4267: '초기화 중': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  (소스 파일 'D3DUtil.cpp'을(를) 컴파일하는 중)
-  
-C:\Users\k9996\OneDrive\Desktop\Git\TechlapPractice\TechLapPractice\TechLapPractice\MeshData.h(65,44): warning C4267: '=': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  (소스 파일 'D3DUtil.cpp'을(를) 컴파일하는 중)
-  
-C:\Users\k9996\OneDrive\Desktop\Git\TechlapPractice\TechLapPractice\TechLapPractice\MeshData.h(78,22): warning C4267: 'return': 'size_t'에서 'const UINT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  (소스 파일 'D3DUtil.cpp'을(를) 컴파일하는 중)
-  
-C:\Users\k9996\OneDrive\Desktop\Git\TechlapPractice\TechLapPractice\TechLapPractice\D3DUtil.cpp(7,23): warning C4244: '=': 'const UINT'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\k9996\OneDrive\Desktop\Git\TechlapPractice\TechLapPractice\TechLapPractice\D3DUtil.cpp(8,24): warning C4244: '=': 'const UINT'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\k9996\OneDrive\Desktop\Git\TechlapPractice\TechLapPractice\TechLapPractice\D3DUtil.cpp(72,51): warning C4267: '=': 'size_t'에서 'UINT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\k9996\OneDrive\Desktop\Git\TechlapPractice\TechLapPractice\TechLapPractice\D3DUtil.cpp(88,45): warning C4267: '=': 'size_t'에서 'UINT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  GameObject.cpp
-C:\Users\k9996\OneDrive\Desktop\Git\TechlapPractice\TechLapPractice\TechLapPractice\MeshData.h(55,20): warning C4267: '초기화 중': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  (소스 파일 'GameObject.cpp'을(를) 컴파일하는 중)
-  
-C:\Users\k9996\OneDrive\Desktop\Git\TechlapPractice\TechLapPractice\TechLapPractice\MeshData.h(65,44): warning C4267: '=': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  (소스 파일 'GameObject.cpp'을(를) 컴파일하는 중)
-  
-C:\Users\k9996\OneDrive\Desktop\Git\TechlapPractice\TechLapPractice\TechLapPractice\MeshData.h(78,22): warning C4267: 'return': 'size_t'에서 'const UINT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  (소스 파일 'GameObject.cpp'을(를) 컴파일하는 중)
-  
-  GraphicsCommon.cpp
-C:\Users\k9996\OneDrive\Desktop\Git\TechlapPractice\TechLapPractice\TechLapPractice\MeshData.h(55,20): warning C4267: '초기화 중': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  (소스 파일 'GraphicsCommon.cpp'을(를) 컴파일하는 중)
-  
-C:\Users\k9996\OneDrive\Desktop\Git\TechlapPractice\TechLapPractice\TechLapPractice\MeshData.h(65,44): warning C4267: '=': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  (소스 파일 'GraphicsCommon.cpp'을(를) 컴파일하는 중)
-  
-C:\Users\k9996\OneDrive\Desktop\Git\TechlapPractice\TechLapPractice\TechLapPractice\MeshData.h(78,22): warning C4267: 'return': 'size_t'에서 'const UINT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  (소스 파일 'GraphicsCommon.cpp'을(를) 컴파일하는 중)
-  
-  GraphicsPSO.cpp
-  Mesh.cpp
-C:\Users\k9996\OneDrive\Desktop\Git\TechlapPractice\TechLapPractice\TechLapPractice\MeshData.h(55,20): warning C4267: '초기화 중': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  (소스 파일 'Mesh.cpp'을(를) 컴파일하는 중)
-  
-C:\Users\k9996\OneDrive\Desktop\Git\TechlapPractice\TechLapPractice\TechLapPractice\MeshData.h(65,44): warning C4267: '=': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  (소스 파일 'Mesh.cpp'을(를) 컴파일하는 중)
-  
-C:\Users\k9996\OneDrive\Desktop\Git\TechlapPractice\TechLapPractice\TechLapPractice\MeshData.h(78,22): warning C4267: 'return': 'size_t'에서 'const UINT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  (소스 파일 'Mesh.cpp'을(를) 컴파일하는 중)
-  
-  MeshData.cpp
-C:\Users\k9996\OneDrive\Desktop\Git\TechlapPractice\TechLapPractice\TechLapPractice\MeshData.h(55,20): warning C4267: '초기화 중': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  (소스 파일 'MeshData.cpp'을(를) 컴파일하는 중)
-  
-C:\Users\k9996\OneDrive\Desktop\Git\TechlapPractice\TechLapPractice\TechLapPractice\MeshData.h(65,44): warning C4267: '=': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  (소스 파일 'MeshData.cpp'을(를) 컴파일하는 중)
-  
-C:\Users\k9996\OneDrive\Desktop\Git\TechlapPractice\TechLapPractice\TechLapPractice\MeshData.h(78,22): warning C4267: 'return': 'size_t'에서 'const UINT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  (소스 파일 'MeshData.cpp'을(를) 컴파일하는 중)
-  
-  Renderer.cpp
+﻿  Renderer.cpp
 C:\Users\k9996\OneDrive\Desktop\Git\TechlapPractice\TechLapPractice\TechLapPractice\MeshData.h(55,20): warning C4267: '초기화 중': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
   (소스 파일 'Renderer.cpp'을(를) 컴파일하는 중)
   
@@ -84,21 +9,10 @@ C:\Users\k9996\OneDrive\Desktop\Git\TechlapPractice\TechLapPractice\TechLapPract
   (소스 파일 'Renderer.cpp'을(를) 컴파일하는 중)
   
 C:\Users\k9996\OneDrive\Desktop\Git\TechlapPractice\TechLapPractice\TechLapPractice\Renderer.cpp(48,27): warning C4267: '초기화 중': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\k9996\OneDrive\Desktop\Git\TechlapPractice\TechLapPractice\TechLapPractice\Renderer.cpp(142,22): warning C4838: 'UINT'에서 'LONG'(으)로의 변환에는 축소 변환이 필요합니다.
-C:\Users\k9996\OneDrive\Desktop\Git\TechlapPractice\TechLapPractice\TechLapPractice\Renderer.cpp(142,35): warning C4838: 'UINT'에서 'LONG'(으)로의 변환에는 축소 변환이 필요합니다.
-C:\Users\k9996\OneDrive\Desktop\Git\TechlapPractice\TechLapPractice\TechLapPractice\Renderer.cpp(273,39): warning C4244: '인수': 'UINT'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\k9996\OneDrive\Desktop\Git\TechlapPractice\TechLapPractice\TechLapPractice\Renderer.cpp(273,26): warning C4244: '인수': 'UINT'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  main.cpp
-C:\Users\k9996\OneDrive\Desktop\Git\TechlapPractice\TechLapPractice\TechLapPractice\MeshData.h(55,20): warning C4267: '초기화 중': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  (소스 파일 'main.cpp'을(를) 컴파일하는 중)
-  
-C:\Users\k9996\OneDrive\Desktop\Git\TechlapPractice\TechLapPractice\TechLapPractice\MeshData.h(65,44): warning C4267: '=': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  (소스 파일 'main.cpp'을(를) 컴파일하는 중)
-  
-C:\Users\k9996\OneDrive\Desktop\Git\TechlapPractice\TechLapPractice\TechLapPractice\MeshData.h(78,22): warning C4267: 'return': 'size_t'에서 'const UINT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  (소스 파일 'main.cpp'을(를) 컴파일하는 중)
-  
-  코드를 생성하고 있습니다...
+C:\Users\k9996\OneDrive\Desktop\Git\TechlapPractice\TechLapPractice\TechLapPractice\Renderer.cpp(145,22): warning C4838: 'UINT'에서 'LONG'(으)로의 변환에는 축소 변환이 필요합니다.
+C:\Users\k9996\OneDrive\Desktop\Git\TechlapPractice\TechLapPractice\TechLapPractice\Renderer.cpp(145,35): warning C4838: 'UINT'에서 'LONG'(으)로의 변환에는 축소 변환이 필요합니다.
+C:\Users\k9996\OneDrive\Desktop\Git\TechlapPractice\TechLapPractice\TechLapPractice\Renderer.cpp(276,39): warning C4244: '인수': 'UINT'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\k9996\OneDrive\Desktop\Git\TechlapPractice\TechLapPractice\TechLapPractice\Renderer.cpp(276,26): warning C4244: '인수': 'UINT'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
   TechLapPractice.vcxproj -> C:\Users\k9996\OneDrive\Desktop\Git\TechlapPractice\TechLapPractice\x64\Debug\TechLapPractice.exe
   'pwsh.exe'은(는) 내부 또는 외부 명령, 실행할 수 있는 프로그램, 또는
   배치 파일이 아닙니다.
