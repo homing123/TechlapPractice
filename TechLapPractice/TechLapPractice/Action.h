@@ -6,6 +6,7 @@
 #include <iostream>
 
 //Claude에서 만든 코드 이해하면서 공부해보자
+//Args... : 가변길이 템플릿 
 
 
 template<typename... Args>
@@ -13,6 +14,10 @@ class Action {
 private:
     struct CallbackWrapper {
         std::function<void(Args...)> callback;
+        void temp(void(Args...) func)
+        {
+
+        }
         size_t id;
 
         CallbackWrapper(const std::function<void(Args...)>& cb)
@@ -34,13 +39,12 @@ private:
 
 public:
     // += 연산자 오버로딩 (함수 추가)
-    Action& operator+=(const std::function<void(Args...)>& func) {
+    void operator+=(const std::function<void(Args...)>& func) {
         callbacks.emplace_back(func);
-        return *this;
     }
 
     // -= 연산자 오버로딩 (함수 제거)
-    Action& operator-=(const std::function<void(Args...)>& func) {
+    void operator-=(const std::function<void(Args...)>& func) {
         size_t targetId = CallbackWrapper::GenerateId(func);
         callbacks.erase(
             std::remove_if(callbacks.begin(), callbacks.end(),
@@ -49,7 +53,6 @@ public:
                 }),
             callbacks.end()
         );
-        return *this;
     }
 
     // Invoke 함수 (모든 등록된 함수 호출)

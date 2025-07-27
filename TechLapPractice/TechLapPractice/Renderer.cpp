@@ -83,7 +83,7 @@ LRESULT CALLBACK URenderer::MsgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM l
 		break;
 	case WM_SIZE:
 		UINT screenWidth = LOWORD(lParam);
-		UINT screenHeight = HIWORD(lParam;)
+		UINT screenHeight = HIWORD(lParam);
 		cout << "size" << endl;
 		break;
 	case WM_MOUSEMOVE:
