@@ -1,8 +1,10 @@
 #pragma once
 
 #include "Renderer.h"
+#include "GUIManager.h"
 #include <unordered_map>
 #include "GraphicsCommon.h"
+#include "Vector2Int.h"
 using namespace HMGraphics;
 class UApp
 {
@@ -13,6 +15,7 @@ private:
 	bool bInitialized = false;
 
 	URenderer Renderer;
+	UGUIManager GUIManager;
 	vector<unique_ptr<UGameObject>> SceneGameObjects;
 	UCamera Camera;
 public:
@@ -24,20 +27,20 @@ public:
 	{
 		return Renderer.GetContext();
 	}
-	const UINT GetScreenWidth() const
+	const FVector2Int GetWindowSize() const
 	{
-		return Renderer.GetScreenWidth();
+		return Renderer.GetWindowSize();
 	}
-	const UINT GetScreenHeight() const
+	const FVector2Int GetGameSceneSize() const
 	{
-		return Renderer.GetScreenHeight();
+		return Renderer.GetSceneScreenSize();
 	}
 public:
 	bool Init();
 	int Run();
 
-
 	void MakeGameObject(const string& name, FMesh* pMesh);
+	void ResizeWindow(const FVector2Int& windowSize);
 	static LRESULT CALLBACK MsgProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam);
 
 private:

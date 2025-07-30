@@ -45,10 +45,10 @@ public:
 		context->Unmap(cBuffer, 0);
 	}
 
-	static void SetViewport(D3D11_VIEWPORT& viewportInfo, const UINT width, const UINT height);
 	static void ResizeSwapChain();
-	static void CreateSRV(ID3D11Resource* resource, ID3D11ShaderResourceView** resourceSRV);
-	static void CreateRTV(ID3D11Resource* resource, ID3D11RenderTargetView** resourceRTV);
+	static void CreateFrameBufferWithSRVRTV(const UINT width, const UINT height, ID3D11Texture2D** frameBuffer, ID3D11ShaderResourceView** srv, ID3D11RenderTargetView** rtv, DXGI_FORMAT format);
+	static void CreateFrameBufferWithRTV(const UINT width, const UINT height, ID3D11Texture2D** frameBuffer,  ID3D11RenderTargetView** rtv, DXGI_FORMAT format);
+	static void CreateSwapChainRTV(ID3D11Resource* swapChainBuffer, ID3D11RenderTargetView** swapChainRTV);
 	static bool CreateDepthStencilTextureAndView(const UINT width, const UINT height, ID3D11Texture2D** depthBuffer, ID3D11DepthStencilView** depthStencilView);
 	static void CreateVSAndInputLayout(const LPCWSTR& fileName, const D3D11_INPUT_ELEMENT_DESC* inputElements, const UINT elementsCount, ID3D11VertexShader** outVS, ID3D11InputLayout** outInputLayout);
 	static void CreatePS(const LPCWSTR& fileName, ID3D11PixelShader** outPS);

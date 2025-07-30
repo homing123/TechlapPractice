@@ -7,10 +7,21 @@ extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam
 bool UApp::Init()
 {
 	Ins = this;
-	bool rendererInitialized = Renderer.Init();
+	FVector2Int scenePos;
+	FVector2Int sceneSize;
+	GUIManager.InitWindowsTransformAndGetSceneTransform(Renderer.GetWindowSize(), scenePos, sceneSize);
+	if (Renderer.Init(scenePos, sceneSize) == false)
+	{
+		return false;
+	}
+	if (GUIManager.Init(Renderer.GetWindowSize(), Renderer.GetHWND()) == false)
+	{
+		return false;
+	}
 	Camera.Init();
 	bInitialized = true;
-	return rendererInitialized;
+	cout << "AppInit Success" << endl;
+	return true;
 }
 void UApp::Start() 
 {
@@ -33,13 +44,23 @@ void UApp::Update()
 void UApp::Cycle()
 {
 	Update();
-	Renderer.Render(Camera, SceneGameObjects);
+	Renderer.RenderGameScene(Camera, SceneGameObjects);
+	GUIManager.Render();
+	Renderer.SwapChainPresent();
 }
 
 void UApp::MakeGameObject(const string& name, FMesh* pMesh)
 {
 	SceneGameObjects.emplace_back(make_unique<UGameObject>(name, pMesh));
 }	
+
+void UApp::ResizeWindow(const FVector2Int& windowSize)
+{
+	FVector2Int scenePos;
+	FVector2Int sceneSize;
+	GUIManager.ResizeWindowsAndGetScreenSize(windowSize, scenePos, sceneSize);
+	Renderer.ResizeWindow(windowSize, scenePos, sceneSize);
+}
 
 
 int UApp::Run()
@@ -82,8 +103,7 @@ LRESULT CALLBACK UApp::MsgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 		{
 			UINT screenWidth = LOWORD(lParam);
 			UINT screenHeight = HIWORD(lParam);
-			UApp::Ins->Renderer.ResizeWindow(screenWidth, screenHeight);
-			cout << screenWidth << " : " << screenHeight << endl;
+			UApp::Ins->ResizeWindow(FVector2Int(screenWidth, screenHeight));
 		}
 	}
 	break;

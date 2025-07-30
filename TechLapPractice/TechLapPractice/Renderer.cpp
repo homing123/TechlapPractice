@@ -2,26 +2,28 @@
 #include "App.h"
 
 
-bool URenderer::Init()
+bool URenderer::Init(const FVector2Int& scenePos, const FVector2Int& sceneSize)
 {
+	ScenePos = scenePos;
+	SceneSize = sceneSize;
+
 	if (InitWindow() == false)
 	{
 		return false;
 	}
-	if (InitDirect3D() == false)
+	if (InitDirect3DAndCreateSwapChainBuffer() == false)
 	{
 		return false;
 	}
-	if (InitImGui() == false)
-	{
-		return false;
-	}
+	
+	D3DUtil::CreateDepthStencilTextureAndView(WindowSize.x, WindowSize.y, &DepthBuffer, &DepthStencilView);
 	InitGraphics();	
+	SetGameSceneViewport();
 
 	return true;
 }
 
-void URenderer::Render(UCamera& camera, const vector<unique_ptr<UGameObject>>& sceneGameObjects)
+void URenderer::RenderGameScene(UCamera& camera, const vector<unique_ptr<UGameObject>>& sceneGameObjects)
 {
 	camera.UpdateConstantBuffer();
 	Matrix viewProjectionMat = camera.GetViewProjectionMatix();
@@ -35,7 +37,7 @@ void URenderer::Render(UCamera& camera, const vector<unique_ptr<UGameObject>>& s
 	//depth 없는버전
 	//Context->OMSetRenderTargets(1, &FrameBufferRTV, nullptr);
 
-	Context->RSSetViewports(1, &ViewportInfo);
+	Context->RSSetViewports(1, &GameSceneViewport);
 	Context->OMSetBlendState(nullptr, nullptr, 0xffffffff);
 	Context->PSSetConstantBuffers(0, 1, &ConstantBuffer);
 	BasicPSO.RenderSetting(Context);
@@ -44,38 +46,39 @@ void URenderer::Render(UCamera& camera, const vector<unique_ptr<UGameObject>>& s
 	{
 		sceneGameObjects[i].get()->Draw(viewProjectionMat);
 	}
-	RenderGUI();
+}
+void URenderer::SwapChainPresent()
+{
 	SwapChain->Present(1, 0); // 1: VSync 활성화
 }
 
-void URenderer::RenderGUI()
-{
-	ImGui_ImplDX11_NewFrame();
-	ImGui_ImplWin32_NewFrame();
-	ImGui::NewFrame();
-	ImGui::Begin("GUI Window");
-	ImGui::Text("Test");
 
-	ImGui::End();
-	ImGui::Render();
-	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
-}
-
-void URenderer::ResizeWindow(UINT width, UINT height)
+void URenderer::ResizeWindow(const FVector2Int& windowSize, const FVector2Int& scenePos, const FVector2Int& sceneSize)
 {
-	ScreenWidth = width;
-	ScreenHeight = height;
+	WindowSize = windowSize;
+	ScenePos = scenePos;
+	SceneSize = sceneSize;
 	FrameBufferRTV->Release();
+	DepthStencilView->Release();
 	DepthBuffer->Release();
 	FrameBuffer->Release();
 	//ResizeBuffers 에서 DXGI_FORMAT_UNKNOWN는 기존 포맷 유지
-	SwapChain->ResizeBuffers(0, width, height, DXGI_FORMAT_UNKNOWN, 0);
+	SwapChain->ResizeBuffers(0, windowSize.x, windowSize.y, DXGI_FORMAT_UNKNOWN, 0);
 	HRESULT result = SwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)&FrameBuffer);
 
-	D3DUtil::CreateRTV(FrameBuffer, &FrameBufferRTV);
+	D3DUtil::CreateSwapChainRTV(FrameBuffer, &FrameBufferRTV);
+	D3DUtil::CreateDepthStencilTextureAndView(windowSize.x, windowSize.y, &DepthBuffer, &DepthStencilView);
 
-	D3DUtil::SetViewport(ViewportInfo, ScreenWidth, ScreenHeight);
-	D3DUtil::CreateDepthStencilTextureAndView(ScreenWidth, ScreenHeight, &DepthBuffer, &DepthStencilView);
+	SetGameSceneViewport();
+}
+void URenderer::SetGameSceneViewport()
+{
+	GameSceneViewport.Width = SceneSize.x;
+	GameSceneViewport.Height = SceneSize.y;
+	GameSceneViewport.TopLeftX = ScenePos.x;
+	GameSceneViewport.TopLeftY = ScenePos.y;
+	GameSceneViewport.MinDepth = 0;
+	GameSceneViewport.MaxDepth = 1;
 }
 
 
@@ -113,7 +116,7 @@ bool URenderer::InitWindow()
 	int WindowPosX = CW_USEDEFAULT;
 	int WindowPosY = CW_USEDEFAULT;
 
-	RECT rect = { 0, 0, ScreenWidth, ScreenHeight };
+	RECT rect = { 0, 0, WindowSize.x, WindowSize.y };
 	AdjustWindowRect(&rect, WindowStyle, false);
 
 	HWnd = CreateWindowExW(0, windowName, titleName, WindowStyle,
@@ -131,7 +134,7 @@ bool URenderer::InitWindow()
 
 }
 
-bool URenderer::InitDirect3D()
+bool URenderer::InitDirect3DAndCreateSwapChainBuffer()
 {
 	const D3D_DRIVER_TYPE driverType = D3D_DRIVER_TYPE_HARDWARE;
 	const D3D_FEATURE_LEVEL featureLevels[] = { D3D_FEATURE_LEVEL_11_0 };
@@ -162,8 +165,8 @@ bool URenderer::InitDirect3D()
 	//}
 
 	DXGI_SWAP_CHAIN_DESC swapchainDesc = {};
-	swapchainDesc.BufferDesc.Width = ScreenWidth;
-	swapchainDesc.BufferDesc.Height = ScreenHeight;
+	swapchainDesc.BufferDesc.Width = WindowSize.x;
+	swapchainDesc.BufferDesc.Height = WindowSize.y;
 	swapchainDesc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
 	swapchainDesc.BufferDesc.RefreshRate.Numerator = 60;
 	swapchainDesc.BufferDesc.RefreshRate.Denominator = 1;
@@ -191,29 +194,7 @@ bool URenderer::InitDirect3D()
 		cout << "Get SwapChain Buffer Failed" << endl;
 		return false;
 	}
-	D3DUtil::SetViewport(ViewportInfo, ScreenWidth, ScreenHeight);
-	D3DUtil::CreateRTV(FrameBuffer, &FrameBufferRTV);
-	D3DUtil::CreateDepthStencilTextureAndView(ScreenWidth, ScreenHeight, &DepthBuffer, &DepthStencilView);
-
-	
-	
+	D3DUtil::CreateSwapChainRTV(FrameBuffer, &FrameBufferRTV);
 	return true;
 }
 
-bool URenderer::InitImGui()
-{
-	IMGUI_CHECKVERSION();
-	ImGui::CreateContext();
-	ImGui::StyleColorsDark();
-	ImGuiIO& io = ImGui::GetIO();
-	io.DisplaySize = ImVec2(ScreenWidth, ScreenHeight);
-	if (ImGui_ImplWin32_Init(HWnd) == false)
-	{
-		return false;
-	}
-	if (ImGui_ImplDX11_Init(Device, Context) == false)
-	{
-		return false;
-	}
-	return true;
-}

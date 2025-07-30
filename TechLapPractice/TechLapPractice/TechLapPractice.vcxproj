@@ -129,9 +129,11 @@
   <ItemGroup>
     <ClCompile Include="App.cpp" />
     <ClCompile Include="D3DUtil.cpp" />
+    <ClCompile Include="FVector2Int.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GraphicsCommon.cpp" />
     <ClCompile Include="GraphicsPSO.cpp" />
+    <ClCompile Include="GUIManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="MeshData.cpp" />
@@ -144,6 +146,7 @@
     <ClInclude Include="App.h" />
     <ClInclude Include="ConstantBuffer.h" />
     <ClInclude Include="D3DUtil.h" />
+    <ClInclude Include="GUIManager.h" />
     <ClInclude Include="LogUtil.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="GraphicsCommon.h" />
@@ -153,6 +156,7 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Transform.h" />
+    <ClInclude Include="Vector2Int.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="BasicShader.hlsl">

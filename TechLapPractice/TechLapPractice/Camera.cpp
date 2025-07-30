@@ -34,10 +34,9 @@ const Matrix UCamera::GetViewMatix() const
 }
 const Matrix UCamera::GetProjectionMatrix() const
 {
-	const UINT screenWidth = UApp::Ins->GetScreenWidth();
-	const UINT screenHeight = UApp::Ins->GetScreenHeight();
+	const FVector2Int windowSize = UApp::Ins->GetGameSceneSize();
 	const float d = 1 / tan(XMConvertToRadians(FovDegree) * 0.5f);
-	const float aspectRCP = (float)screenHeight / (float)screenWidth;
+	const float aspectRCP = (float)windowSize.y / (float)windowSize.x;
 	const float farMinusNearRCP = 1 / (Far - Near);
 	const float m = Far * farMinusNearRCP;
 	const float n = -Far * Near * farMinusNearRCP;
@@ -55,10 +54,9 @@ const Matrix UCamera::GetViewProjectionMatix() const
 	const Vector3& right = Transform.GetRight();
 	const Vector3& up = Transform.GetUp();
 	const Vector3& forward = Transform.GetForward();
-	const UINT screenWidth = UApp::Ins->GetScreenWidth();
-	const UINT screenHeight = UApp::Ins->GetScreenHeight();
+	const FVector2Int windowSize = UApp::Ins->GetGameSceneSize();
 	const float d = 1 / tan(XMConvertToRadians(FovDegree) * 0.5f);
-	const float aspectRCP = (float)screenHeight / (float)screenWidth;
+	const float aspectRCP = (float)windowSize.y / (float)windowSize.x;
 	const float farMinusNearRCP = 1 / (Far - Near);
 	const float m = Far * farMinusNearRCP;
 	const float n = -Far * Near * farMinusNearRCP;
@@ -98,8 +96,8 @@ void UCamera::UpdateConstantBuffer()
 
 	CamConstantBufferData.CamFar = Far;
 	CamConstantBufferData.CamNear = Near;
-	CamConstantBufferData.ScreenWidth = UApp::Ins->GetScreenWidth();
-	CamConstantBufferData.ScreenHieght = UApp::Ins->GetScreenHeight();
+	CamConstantBufferData.ScreenWidth = UApp::Ins->GetGameSceneSize().x;
+	CamConstantBufferData.ScreenHieght = UApp::Ins->GetGameSceneSize().y;
 
 	D3DUtil::UpdateConstantBuffer(UApp::Ins->GetContext(), CamConstantBufferData, CamConstantBuffer);
 }

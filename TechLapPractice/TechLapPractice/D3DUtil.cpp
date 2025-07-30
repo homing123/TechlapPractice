@@ -1,34 +1,91 @@
 #include "D3DUtil.h"
 #include "App.h"
 
-void D3DUtil::SetViewport(D3D11_VIEWPORT& viewportInfo, const UINT width, const UINT height)
-{
-	viewportInfo = {};
-	viewportInfo.Width = width;
-	viewportInfo.Height = height;
-	viewportInfo.TopLeftX = 0;
-	viewportInfo.TopLeftY = 0;
-	viewportInfo.MinDepth = 0.0f;
-	viewportInfo.MaxDepth = 1.0f;
-	UApp::Ins->GetContext()->RSSetViewports(1, &viewportInfo);
-
-}
 
 void D3DUtil::ResizeSwapChain()
 {
 
 }	
-void D3DUtil::CreateSRV(ID3D11Resource* resource, ID3D11ShaderResourceView** resourceSRV)
+void D3DUtil::CreateFrameBufferWithSRVRTV(const UINT width, const UINT height, ID3D11Texture2D** frameBuffer, ID3D11ShaderResourceView** srv, ID3D11RenderTargetView** rtv, DXGI_FORMAT format = DXGI_FORMAT_R8G8B8A8_UNORM)
 {
+	D3D11_TEXTURE2D_DESC texDesc = {};
+	texDesc.Width = width;
+	texDesc.Height = height;
+	texDesc.Format = format;
+	texDesc.MipLevels = 1;
+	texDesc.ArraySize = 1;
+	texDesc.SampleDesc.Count = 1;
+	texDesc.SampleDesc.Quality = 0;
+	texDesc.Usage = D3D11_USAGE_DEFAULT;
+	texDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_RENDER_TARGET;
+	texDesc.CPUAccessFlags = 0;
+	texDesc.MiscFlags = 0;
 
+	HRESULT result = UApp::Ins->GetDevice()->CreateTexture2D(&texDesc, nullptr, frameBuffer);
+	if (FAILED(result))
+	{
+		cout << "CreateFrameBufferWithSRVRTV -> CreateTexture2D Failed" << endl;
+		return;
+	}
+	D3D11_RENDER_TARGET_VIEW_DESC rtvDesc = {};
+	rtvDesc.Format = format;
+	rtvDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
+	result = UApp::Ins->GetDevice()->CreateRenderTargetView(*frameBuffer, &rtvDesc, rtv);
+	if (FAILED(result))
+	{
+		cout << "CreateFrameBufferWithSRVRTV -> CreateRenderTargetView Failed" << endl;
+		return;
+	}
+	D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc = {};
+	srvDesc.Format = format;
+	srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+	result = UApp::Ins->GetDevice()->CreateShaderResourceView(*frameBuffer, &srvDesc, srv);
+	if (FAILED(result))
+	{
+		cout << "CreateFrameBufferWithSRVRTV -> CreateShaderResourceView Failed" << endl;
+		return;
+	}
 }
-void D3DUtil::CreateRTV(ID3D11Resource* resource, ID3D11RenderTargetView** resourceRTV)
-{
-	D3D11_RENDER_TARGET_VIEW_DESC frameBufferRTVDesc = {};
-	frameBufferRTVDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-	frameBufferRTVDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
 
-	HRESULT result = UApp::Ins->GetDevice()->CreateRenderTargetView(resource, &frameBufferRTVDesc, resourceRTV);
+void D3DUtil::CreateFrameBufferWithRTV(const UINT width, const UINT height, ID3D11Texture2D** frameBuffer, ID3D11RenderTargetView** rtv, DXGI_FORMAT format = DXGI_FORMAT_R8G8B8A8_UNORM)
+{
+	D3D11_TEXTURE2D_DESC texDesc = {};
+	texDesc.Width = width;
+	texDesc.Height = height;
+	texDesc.Format = format;
+	texDesc.MipLevels = 1;
+	texDesc.ArraySize = 1;
+	texDesc.SampleDesc.Count = 1;
+	texDesc.SampleDesc.Quality = 0;
+	texDesc.Usage = D3D11_USAGE_DEFAULT;
+	texDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_RENDER_TARGET;
+	texDesc.CPUAccessFlags = 0;
+	texDesc.MiscFlags = 0;
+
+	HRESULT result = UApp::Ins->GetDevice()->CreateTexture2D(&texDesc, nullptr, frameBuffer);
+	if (FAILED(result))
+	{
+		cout << "CreateFrameBufferWithRTV -> CreateTexture2D Failed" << endl;
+		return;
+	}
+	D3D11_RENDER_TARGET_VIEW_DESC rtvDesc = {};
+	rtvDesc.Format = format;
+	rtvDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
+	result = UApp::Ins->GetDevice()->CreateRenderTargetView(*frameBuffer, &rtvDesc, rtv);
+	if (FAILED(result))
+	{
+		cout << "CreateFrameBufferWithRTV -> CreateRenderTargetView Failed" << endl;
+		return;
+	}
+}
+
+void D3DUtil::CreateSwapChainRTV(ID3D11Resource* swapChainBuffer, ID3D11RenderTargetView** swapChainRTV)
+{
+	D3D11_RENDER_TARGET_VIEW_DESC rtvDesc = {};
+	rtvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+	rtvDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
+
+	HRESULT result = UApp::Ins->GetDevice()->CreateRenderTargetView(swapChainBuffer, &rtvDesc, swapChainRTV);
 	if (FAILED(result))
 	{
 		cout << "Create RenderTargetView Failed" << endl;
