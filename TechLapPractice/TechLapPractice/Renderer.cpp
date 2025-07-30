@@ -1,6 +1,6 @@
 #include "Renderer.h"
+#include "App.h"
 
-extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 bool URenderer::Init()
 {
@@ -16,13 +16,7 @@ bool URenderer::Init()
 	{
 		return false;
 	}
-	InitGraphics();
-	
-
-	
-
-	
-
+	InitGraphics();	
 
 	return true;
 }
@@ -67,47 +61,23 @@ void URenderer::RenderGUI()
 	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 }
 
-
-LRESULT CALLBACK URenderer::MsgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
+void URenderer::ResizeWindow(UINT width, UINT height)
 {
-	if (ImGui_ImplWin32_WndProcHandler(hWnd, msg, wParam, lParam))
-	{
-		return true;
-	}
-	switch (msg)
-	{
-	case WM_CREATE:
-		break;
-	case WM_DISPLAYCHANGE:
-		cout << "change" << endl;
-		break;
-	case WM_SIZE:
-		UINT screenWidth = LOWORD(lParam);
-		UINT screenHeight = HIWORD(lParam);
-		cout << "size" << endl;
-		break;
-	case WM_MOUSEMOVE:
-		break;
-	case WM_DESTROY:
-		PostQuitMessage(0);
-		break;
-	case WM_LBUTTONDOWN:
-		break;
-	case WM_LBUTTONUP:
-		break;
-	case WM_RBUTTONDOWN:
-		break;
-	case WM_RBUTTONUP:
-		break;
-	case WM_KEYDOWN:
-		break;
-	case WM_KEYUP:
-		break;
-	default : 
-		return DefWindowProc(hWnd, msg, wParam, lParam);
-	}
-	return 0;
+	ScreenWidth = width;
+	ScreenHeight = height;
+	FrameBufferRTV->Release();
+	DepthBuffer->Release();
+	FrameBuffer->Release();
+	//ResizeBuffers 에서 DXGI_FORMAT_UNKNOWN는 기존 포맷 유지
+	SwapChain->ResizeBuffers(0, width, height, DXGI_FORMAT_UNKNOWN, 0);
+	HRESULT result = SwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)&FrameBuffer);
+
+	D3DUtil::CreateRTV(FrameBuffer, &FrameBufferRTV);
+
+	D3DUtil::SetViewport(ViewportInfo, ScreenWidth, ScreenHeight);
+	D3DUtil::CreateDepthStencilTextureAndView(ScreenWidth, ScreenHeight, &DepthBuffer, &DepthStencilView);
 }
+
 
 
 
@@ -124,7 +94,7 @@ bool URenderer::InitWindow()
 	WNDCLASSEX wndClass = {};
 	wndClass.cbSize = sizeof(wndClass);
 	wndClass.style = CS_VREDRAW | CS_HREDRAW;
-	wndClass.lpfnWndProc = MsgProc;
+	wndClass.lpfnWndProc = UApp::MsgProc;
 	wndClass.cbClsExtra = 0;
 	wndClass.cbWndExtra = 0;
 	wndClass.hInstance = GetModuleHandle(nullptr);
@@ -214,7 +184,6 @@ bool URenderer::InitDirect3D()
 		cout << "D3D11CreateDeviceAndSwapChain Failed" << endl;
 		return false;
 	}
-	D3DUtil::SetViewport(ViewportInfo, ScreenWidth, ScreenHeight);
 	
 	HRESULT result = SwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)&FrameBuffer);
 	if (FAILED(result))
@@ -222,49 +191,12 @@ bool URenderer::InitDirect3D()
 		cout << "Get SwapChain Buffer Failed" << endl;
 		return false;
 	}
+	D3DUtil::SetViewport(ViewportInfo, ScreenWidth, ScreenHeight);
+	D3DUtil::CreateRTV(FrameBuffer, &FrameBufferRTV);
+	D3DUtil::CreateDepthStencilTextureAndView(ScreenWidth, ScreenHeight, &DepthBuffer, &DepthStencilView);
 
-	D3D11_RENDER_TARGET_VIEW_DESC frameBufferRTVDesc = {};
-	frameBufferRTVDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-	frameBufferRTVDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
-
-	result = Device->CreateRenderTargetView(FrameBuffer, &frameBufferRTVDesc, &FrameBufferRTV);
-	if (FAILED(result))
-	{
-		cout << "Create RenderTargetView Failed" << endl;
-		return false;
-	}
-
-
-	D3D11_TEXTURE2D_DESC depthTextureDesc = {};
-	depthTextureDesc.Width = ScreenWidth;
-	depthTextureDesc.Height = ScreenHeight;
-	depthTextureDesc.ArraySize = 1;
-	depthTextureDesc.MipLevels = 1;
-	depthTextureDesc.SampleDesc.Count = 1;
-	depthTextureDesc.SampleDesc.Quality = 0;
-	depthTextureDesc.Usage = D3D11_USAGE_DEFAULT;
-	depthTextureDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
-	depthTextureDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
-	depthTextureDesc.CPUAccessFlags = 0;
-	depthTextureDesc.MiscFlags = 0;
-	HRESULT hr = Device->CreateTexture2D(&depthTextureDesc, nullptr, &DepthBuffer);
-	if (FAILED(hr))
-	{
-		cout << "CreateDepthTexture Faield" << endl;
-		return false;
-	}
-
-	D3D11_DEPTH_STENCIL_VIEW_DESC depthStencilViewDesc = {};
-	depthStencilViewDesc.Texture2D.MipSlice = 0;
-	depthStencilViewDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
-	depthStencilViewDesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
-
-	hr = Device->CreateDepthStencilView(DepthBuffer, &depthStencilViewDesc, &DepthStencilView);
-	if (FAILED(hr))
-	{
-		cout << "CreateDepthStencilView Failed" << endl;
-		return false;
-	}
+	
+	
 	return true;
 }
 

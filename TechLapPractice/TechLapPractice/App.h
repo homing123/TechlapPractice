@@ -8,7 +8,10 @@ class UApp
 {
 public:
 	static UApp* Ins;
+
 private:
+	bool bInitialized = false;
+
 	URenderer Renderer;
 	vector<unique_ptr<UGameObject>> SceneGameObjects;
 	UCamera Camera;
@@ -35,6 +38,8 @@ public:
 
 
 	void MakeGameObject(const string& name, FMesh* pMesh);
+	static LRESULT CALLBACK MsgProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam);
+
 private:
 	void Start();
 	void Update();

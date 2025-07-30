@@ -14,6 +14,63 @@ void D3DUtil::SetViewport(D3D11_VIEWPORT& viewportInfo, const UINT width, const 
 
 }
 
+void D3DUtil::ResizeSwapChain()
+{
+
+}	
+void D3DUtil::CreateSRV(ID3D11Resource* resource, ID3D11ShaderResourceView** resourceSRV)
+{
+
+}
+void D3DUtil::CreateRTV(ID3D11Resource* resource, ID3D11RenderTargetView** resourceRTV)
+{
+	D3D11_RENDER_TARGET_VIEW_DESC frameBufferRTVDesc = {};
+	frameBufferRTVDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+	frameBufferRTVDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
+
+	HRESULT result = UApp::Ins->GetDevice()->CreateRenderTargetView(resource, &frameBufferRTVDesc, resourceRTV);
+	if (FAILED(result))
+	{
+		cout << "Create RenderTargetView Failed" << endl;
+		return;
+	}
+}
+
+bool D3DUtil::CreateDepthStencilTextureAndView(const UINT width, const UINT height, ID3D11Texture2D** depthBuffer, ID3D11DepthStencilView** depthStencilView)
+{
+	D3D11_TEXTURE2D_DESC depthTextureDesc = {};
+	depthTextureDesc.Width = width;
+	depthTextureDesc.Height = height;
+	depthTextureDesc.ArraySize = 1;
+	depthTextureDesc.MipLevels = 1;
+	depthTextureDesc.SampleDesc.Count = 1;
+	depthTextureDesc.SampleDesc.Quality = 0;
+	depthTextureDesc.Usage = D3D11_USAGE_DEFAULT;
+	depthTextureDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+	depthTextureDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+	depthTextureDesc.CPUAccessFlags = 0;
+	depthTextureDesc.MiscFlags = 0;
+	HRESULT hr = UApp::Ins->GetDevice()->CreateTexture2D(&depthTextureDesc, nullptr, depthBuffer);
+	if (FAILED(hr))
+	{
+		cout << "CreateDepthTexture Faield" << endl;
+		return false;
+	}
+
+	D3D11_DEPTH_STENCIL_VIEW_DESC depthStencilViewDesc = {};
+	depthStencilViewDesc.Texture2D.MipSlice = 0;
+	depthStencilViewDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+	depthStencilViewDesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
+
+	hr = UApp::Ins->GetDevice()->CreateDepthStencilView(*depthBuffer, &depthStencilViewDesc, depthStencilView);
+	if (FAILED(hr))
+	{
+		cout << "CreateDepthStencilView Failed" << endl;
+		return false;
+	}
+	return true;
+}
+
 void D3DUtil::CreateVSAndInputLayout(const LPCWSTR& fileName, const D3D11_INPUT_ELEMENT_DESC* inputElements, const UINT elementsCount, ID3D11VertexShader** outVS, ID3D11InputLayout** outInputLayout)
 {
 	ID3DBlob* vsCSO;

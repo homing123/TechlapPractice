@@ -46,6 +46,10 @@ public:
 	}
 
 	static void SetViewport(D3D11_VIEWPORT& viewportInfo, const UINT width, const UINT height);
+	static void ResizeSwapChain();
+	static void CreateSRV(ID3D11Resource* resource, ID3D11ShaderResourceView** resourceSRV);
+	static void CreateRTV(ID3D11Resource* resource, ID3D11RenderTargetView** resourceRTV);
+	static bool CreateDepthStencilTextureAndView(const UINT width, const UINT height, ID3D11Texture2D** depthBuffer, ID3D11DepthStencilView** depthStencilView);
 	static void CreateVSAndInputLayout(const LPCWSTR& fileName, const D3D11_INPUT_ELEMENT_DESC* inputElements, const UINT elementsCount, ID3D11VertexShader** outVS, ID3D11InputLayout** outInputLayout);
 	static void CreatePS(const LPCWSTR& fileName, ID3D11PixelShader** outPS);
 	static void CreateVertexBuffer(const vector<float>& vertexValues, const UINT vertexByteWidth, ID3D11Buffer** outVertexBuffer);

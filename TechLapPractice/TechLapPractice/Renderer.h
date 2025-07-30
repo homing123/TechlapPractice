@@ -63,9 +63,9 @@ public:
 	{
 		return ScreenHeight;
 	}
-private:
-	static LRESULT CALLBACK MsgProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam);
+	void ResizeWindow(UINT width, UINT height);
 
+private:
 	bool InitWindow();
 	bool InitDirect3D();
 	bool InitImGui();
