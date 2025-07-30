@@ -30,12 +30,8 @@ void URenderer::RenderGameScene(UCamera& camera, const vector<unique_ptr<UGameOb
 
 	Context->ClearRenderTargetView(FrameBufferRTV, ClearColor);
 
-	//depth 있는버전
 	Context->ClearDepthStencilView(DepthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
 	Context->OMSetRenderTargets(1, &FrameBufferRTV, DepthStencilView);
-
-	//depth 없는버전
-	//Context->OMSetRenderTargets(1, &FrameBufferRTV, nullptr);
 
 	Context->RSSetViewports(1, &GameSceneViewport);
 	Context->OMSetBlendState(nullptr, nullptr, 0xffffffff);
