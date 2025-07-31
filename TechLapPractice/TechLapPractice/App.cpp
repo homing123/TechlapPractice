@@ -18,40 +18,40 @@ bool UApp::Init()
 	{
 		return false;
 	}
-	Camera.Init();
 	bInitialized = true;
 	cout << "AppInit Success" << endl;
 	return true;
 }
 void UApp::Start() 
 {
-	MakeGameObject("TestObject", &CubeMesh);
-	MakeGameObject("Test2", &CubeMesh);
-	SceneGameObjects[0].get()->GetTransform().SetPosition(Vector3(2.0f, 0.0f, 1.01f));
-	Camera.GetTransform().SetPosition(Vector3(0, 0, -5.0f));
+	MakeGameObject("Camera");
+	MakeGameObject("Cube");
+	SceneGameObjects[0].get()->AddComponent<UCamera>();
+
 }
 
 
 
 void UApp::Update()
 {
-	static Vector3 curPos = Vector3(0.0f, 0.0f, 6.0f);
-	curPos.x += 0.02f;
-
+	for (unique_ptr<UGameObject>& go : SceneGameObjects)
+	{
+		go.get()->EventFunction(EGameObjectEventFunctionType::Update);
+	}
 	
 
 }
 void UApp::Cycle()
 {
 	Update();
-	Renderer.RenderGameScene(Camera, SceneGameObjects);
+	//Renderer.RenderGameScene(Camera, SceneGameObjects);
 	GUIManager.Render();
 	Renderer.SwapChainPresent();
 }
 
-void UApp::MakeGameObject(const string& name, FMesh* pMesh)
+void UApp::MakeGameObject(const string& name)
 {
-	SceneGameObjects.emplace_back(make_unique<UGameObject>(name, pMesh));
+	SceneGameObjects.emplace_back(make_unique<UGameObject>(name));
 }	
 
 void UApp::ResizeWindow(const FVector2Int& windowSize)

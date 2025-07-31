@@ -128,6 +128,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="App.cpp" />
+    <ClCompile Include="Component.cpp" />
     <ClCompile Include="D3DUtil.cpp" />
     <ClCompile Include="FVector2Int.cpp" />
     <ClCompile Include="GameObject.cpp" />
@@ -140,13 +141,16 @@
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="SimpleMath.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Transform.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Action.h" />
     <ClInclude Include="App.h" />
+    <ClInclude Include="Component.h" />
     <ClInclude Include="ConstantBuffer.h" />
     <ClInclude Include="D3DUtil.h" />
     <ClInclude Include="GUIManager.h" />
+    <ClInclude Include="Inspectable.h" />
     <ClInclude Include="LogUtil.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="GraphicsCommon.h" />

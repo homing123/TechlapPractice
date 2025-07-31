@@ -1,12 +1,15 @@
 #pragma once
 #include <iostream>
 #include "directxtk/SimpleMath.h"
+#include "Component.h"
+
+class UGameObject;
 
 //simpleMath绰 青氦磐 青纺
 //WorldMat = ScaleMat * RotMat * TranslateMat
 using namespace DirectX::SimpleMath;
 using namespace std;
-class UTransform
+class UTransform : public UComponent
 {
 public:
 
@@ -22,10 +25,8 @@ private:
 	Matrix WorldMat = Matrix::Identity;
 	
 public:
-	UTransform()
-	{
-		cout << "transform 积己" << endl;
-	}
+	UTransform(UGameObject* pGO);
+public:
 	Vector3 GetPosition() const
 	{
 		return Position;
@@ -62,17 +63,17 @@ public:
 	void SetPosition(const Vector3& pos)
 	{
 		Position = pos;
-		Update();
+		TransformUpdate();
 	}
 	void SetScale(const Vector3& scale)
 	{
 		Scale = scale;
-		Update();
+		TransformUpdate();
 	}
 	void SetRotation(const Quaternion& quat)
 	{
 		Rotation = quat;
-		Update();
+		TransformUpdate();
 	}
 	void SetRotataion(const Vector3& eulerRadian)
 	{
@@ -80,12 +81,12 @@ public:
 		//pitch = right
 		//roll = forward
 		Rotation = Quaternion::CreateFromYawPitchRoll(eulerRadian.y, eulerRadian.x, eulerRadian.z);
-		Update();
+		TransformUpdate();
 	}
 	void RotationAxis(const Vector3& axis, const float degree)
 	{
 		Rotation *= Quaternion::CreateFromAxisAngle(axis, degree);
-		Update();
+		TransformUpdate();
 	}
 	void Look(const Vector3& lookPos, const Vector3& up = Vector3::UnitY)
 	{
@@ -98,11 +99,16 @@ public:
 			Vector3 lookDir = lookPos - Position;
 			lookDir.Normalize();
 			Rotation = Quaternion::LookRotation(lookDir, Up);
-			Update();
+			TransformUpdate();
 		}
 	}
+
+	virtual void DrawInspector() override
+	{
+
+	}
 private:
-	void Update() 
+	void TransformUpdate() 
 	{
 		WorldMat = Matrix::CreateScale(Scale) * Matrix::CreateFromQuaternion(Rotation) * Matrix::CreateTranslation(Position);
 		Right = WorldMat.Right();

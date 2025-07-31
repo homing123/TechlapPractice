@@ -17,7 +17,6 @@ private:
 	URenderer Renderer;
 	UGUIManager GUIManager;
 	vector<unique_ptr<UGameObject>> SceneGameObjects;
-	UCamera Camera;
 public:
 	ID3D11Device* GetDevice() const
 	{
@@ -39,7 +38,7 @@ public:
 	bool Init();
 	int Run();
 
-	void MakeGameObject(const string& name, FMesh* pMesh);
+	void MakeGameObject(const string& name);
 	void ResizeWindow(const FVector2Int& windowSize);
 	static LRESULT CALLBACK MsgProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam);
 

@@ -38,10 +38,10 @@ void URenderer::RenderGameScene(UCamera& camera, const vector<unique_ptr<UGameOb
 	Context->PSSetConstantBuffers(0, 1, &ConstantBuffer);
 	BasicPSO.RenderSetting(Context);
 	int sceneGameObjectCount = sceneGameObjects.size();
-	for (int i = 0; i < sceneGameObjectCount; i++)
+	/*for (int i = 0; i < sceneGameObjectCount; i++)
 	{
 		sceneGameObjects[i].get()->Draw(viewProjectionMat);
-	}
+	}*/
 }
 void URenderer::SwapChainPresent()
 {
